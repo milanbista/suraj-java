@@ -1,36 +1,35 @@
 package com.mvcapp.controller;
 
+import com.mvcapp.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/user")
 public class LoginController {
 
     @Autowired
-    private DummyDB db;
+    private LoginService loginService;
 
-   @GetMapping("/user")
-   @ResponseBody
-   public String user(@RequestParam String username, @RequestParam String password){
+    @GetMapping("/login")
+    public String getLogin(){
+        return "login";
+    }
 
-       return "hello " + username+ " " + password;
-   }
+    @PostMapping("/login")
+    public String postLogin(@RequestParam String username, @RequestParam String password, HttpSession session){
 
-   @GetMapping("/user/{id}/name/{name}")
-   @ResponseBody
-   public String users(@PathVariable String id, @PathVariable String name){
-       return "hello user with id " + id + " " + name;
-   }
+      boolean isValid =    loginService.login(username, password);
+      if(isValid){
+          session.setAttribute("username", username );
+          return  "redirect://dashboard";
+      }
 
-
-
-
-
+      return "login";
+    }
 }

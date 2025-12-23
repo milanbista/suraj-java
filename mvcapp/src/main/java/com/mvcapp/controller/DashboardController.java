@@ -1,28 +1,30 @@
 package com.mvcapp.controller;
 
+import com.mvcapp.model.User;
+import com.mvcapp.service.Dashboardservice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 public class DashboardController {
 
-    @GetMapping("/dashboard")
-    public String dash(HttpSession session, Model model){
-//       Object user =  session.getAttribute("username");
-//       if(user == null){
-//           return "login";
-//       }
-//
-//        List<String> products = Arrays.asList("apple", "banana", "orange", "grapes");
-//
-//        model.addAttribute("products", products );
+    @Autowired
+    private Dashboardservice dashboardservice;
 
-        return "dashboard";
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session, Model model){
+
+      String username = (String) session.getAttribute("username");
+
+      User user =  dashboardservice.dashboard(username);
+
+      model.addAttribute("user", user);
+
+      return "dashboard";
     }
 
 }
