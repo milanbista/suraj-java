@@ -34,6 +34,35 @@
       <version>1.2</version>
     </dependency>
 
+
+    <!-- Spring Data JPA Dependency -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+      <version>2.7.18</version> <!-- A compatible version for Spring 5.3.x -->
+    </dependency>
+
+    <!-- Spring ORM Dependency (provides JPA integration) -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>5.3.34</version>
+    </dependency>
+
+    <!-- JPA Implementation (Hibernate) -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.4.33.Final</version> <!-- A compatible Hibernate version for Spring 5.3 -->
+    </dependency>
+
+    <!-- HikariCP Dependency -->
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <version>5.0.1</version> <!-- Use a compatible version -->
+    </dependency>
+
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
