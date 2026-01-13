@@ -1,0 +1,216 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        .feed-container {
+            display: flex;
+            width: 90%;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-feed {
+            flex: 3;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-feed-top {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-feed-bottom {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .right-feed {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .post-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1877f2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .post-author {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .post-actions {
+            border-top: 1px solid #e4e6eb;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .post-btn {
+            background: none;
+            border: none;
+            color: #65676b;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .post-btn:hover {
+            background-color: #f2f3f5;
+        }
+
+        .post-btn.like {
+            color: #1877f2;
+        }
+
+        .stories-container {
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .story-card {
+            width: 120px;
+            height: 80px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            background: #f7f7f7;
+            font-size: 13px;
+        }
+
+        .active-users ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .active-users li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="feed-container">
+
+        <div class="left-feed">
+            <!-- Welcome + Logout -->
+            <div class="left-feed-top">
+                <h2>Welcome ${user.firstName}</h2>
+                <form action="/mvcmilan/logout" method="get">
+                    <button type="submit" style="padding:6px 12px; cursor:pointer;">Logout</button>
+                </form>
+            </div>
+
+            <div class="stories-container">
+                <h3>Stories</h3>
+                <div style="display:flex; gap:10px; overflow-x:auto;">
+                    <c:forEach var="story" items="${stories}">
+                        <div class="story-card">
+                            <strong>${story.user.username}</strong>
+                            <p>${story.content}</p>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <form action="/mvcmilan/story" method="post" style="margin-top:10px;">
+                    <input type="text" name="content" placeholder="Add a story..." required>
+                    <button type="submit">Upload</button>
+                </form>
+            </div>
+
+            <div class="left-feed-bottom">
+                <div class="active-users">
+                    <h3>Active Users</h3>
+                    <ul>
+                        <c:forEach var="activeUser" items="${activeUsers}">
+                            <li>${activeUser}</li>
+                        </c:forEach>
+                    </ul>
+                </div>
+
+                <div class="post-feed-container" style="margin-top:20px;">
+                    <a href="/mvcmilan/post" target="_blank">
+                        <button>Create Post</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-feed">
+            <c:forEach var="post" items="${posts}">
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">JD</div>
+                        <div class="post-author">${post.username}</div>
+                    </div>
+                    <div class="post-content">
+                        <p>${post.content}</p>
+                    </div>
+                    <div class="post-actions">
+                        <button class="post-btn like">👍 Like</button>
+                        <button class="post-btn">💬 Comment</button>
+                        <button class="post-btn">📤 Share</button>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+</body>
+</html>
