@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .loginform {
+        background-color: rgb(101, 187, 249);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      #form {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        justify-content: space-evenly;
+        height: 30vh;
+      }
+
+      .form-e {
+        display: flex;
+        flex-direction: column;
+      }
+
+      input{
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 25px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 10px;
+        border-radius: 25px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loginform">
+      <form id="form" action="/mvcmilan/login" method="post">
+        <div class="form-e formfirst">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required placeholder="enter username" />
+        </div>
+        <div class="form-e formsecond">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required placeholder="enter password" />
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </body>
+</html>

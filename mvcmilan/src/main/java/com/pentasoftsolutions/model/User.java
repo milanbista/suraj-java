@@ -44,6 +44,14 @@ public class User {
     private List<Post> posts;
 
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_groups",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "groupid")
+    )
+    private List<FBGroup> groups;
+
 
     // Constructors
     public User() {
