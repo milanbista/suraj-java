@@ -25,7 +25,7 @@ public class JpaConfig {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:mysql://localhost:3306/surajdb");
         config.setUsername("root");
-        config.setPassword("root");
+        config.setPassword("@Suraj1995#");
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setMaximumPoolSize(10);
         return new HikariDataSource(config);
