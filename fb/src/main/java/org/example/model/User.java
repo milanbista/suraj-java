@@ -2,6 +2,7 @@ package org.example.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,6 +43,16 @@ public class User {
             orphanRemoval = true
     )
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendshipRelation> sentRequests = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendshipRelation> receivedRequest = new ArrayList<>();
+
+
+
 
 
     @ManyToMany
@@ -150,6 +161,30 @@ public class User {
         this.posts = posts;
     }
 
+    public List<FriendshipRelation> getSentRequests() {
+        return sentRequests;
+    }
+
+    public void setSentRequests(List<FriendshipRelation> sentRequests) {
+        this.sentRequests = sentRequests;
+    }
+
+    public List<FriendshipRelation> getReceivedRequest() {
+        return receivedRequest;
+    }
+
+    public void setReceivedRequest(List<FriendshipRelation> receivedRequest) {
+        this.receivedRequest = receivedRequest;
+    }
+
+    public List<FBGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<FBGroup> groups) {
+        this.groups = groups;
+    }
+
     // toString method for debugging
     @Override
     public String toString() {
@@ -164,4 +199,6 @@ public class User {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
+
+
 }

@@ -16,6 +16,7 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping("/dash")
 public class DashboardController {
 
     @Autowired
@@ -67,7 +68,7 @@ public class DashboardController {
         post.setUser(user);
         postService.save(post);
 
-        return "redirect:/dashboard";
+        return "redirect:/dash/dashboard";
     }
 
 // Hell

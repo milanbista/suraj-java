@@ -46,7 +46,7 @@ public class AuthController {
             session.setAttribute("user", user);
             //set active user
             activeUsers.addOnlineUser(user.getUsername());
-            return "redirect:/dashboard";
+            return "redirect:/dash/dashboard";
         }
         return "login";
     }
