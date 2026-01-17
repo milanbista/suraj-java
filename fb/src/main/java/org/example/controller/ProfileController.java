@@ -2,6 +2,7 @@ package org.example.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.model.User;
+import org.example.repository.UserRepository;
 import org.example.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
@@ -27,6 +30,11 @@ public class ProfileController {
 
     //get all users who are not friends
 
+    @GetMapping("/testusers")
+    @ResponseBody
+    public List<User> testUsers(){
+        return userRepository.findAll();
+    }
     @GetMapping("/availablefriends")
     @ResponseBody
     public List<User> getAvailableFriends(HttpSession session){

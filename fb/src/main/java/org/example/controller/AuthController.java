@@ -53,7 +53,7 @@ public class AuthController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session){
-        User user = (User) session.getAttribute("User");
+        User user = (User) session.getAttribute("user");
         if(user!=null){
             activeUsers.removeOnlineUser(user.getUsername());
         }

@@ -25,18 +25,37 @@ public class ProfileService {
     public List<User> getAvailableUsers(User user){
         if (null != user){
             //get all users
-            List<User> users =  userRepository.findAll();
+            List<User> allUsers =  userRepository.findAll();
 
             //get all friends
-            List<FriendshipRelation> friends = friendshipRepository.findFriends(user, FriendShipStatus.ACCEPTED);
+            List<FriendshipRelation> friendships = friendshipRepository.findFriends(user, FriendShipStatus.ACCEPTED);
 
+            List<User> friends = new ArrayList<>();
+            for(FriendshipRelation fr: friendships){
+                if(fr.getRequester().getId().equals(user.getId())){
+                    friends.add(fr.getReceiver());
+                }else {
+                    friends.add(fr.getRequester());
+                }
+            }
             //subtract users from friends
-            List<User> availableFriends = new ArrayList<>();
+            List<User> availableUsers = new ArrayList<>();
+            for (User u:allUsers){
+                if(!u.getId().equals(user.getId())&&!friends.contains(u)){
+                    availableUsers.add(u);
+                }
+            }
+
+
+
+
+
+
 
             //todo
-            availableFriends.add(new User("sample", "sample", "same", "same", "s", 12, LocalDateTime.now(), "sdf"));
+//            availableFriends.add(new User("sample", "sample", "same", "same", "s", 12, LocalDateTime.now(), "sdf"));
 
-            return availableFriends;
+            return availableUsers;
 
         }
 
