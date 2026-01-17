@@ -1,11 +1,13 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
+@JsonIgnoreProperties({"user"})
 public class Post {
 
     @Id

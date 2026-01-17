@@ -18,8 +18,6 @@ public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
@@ -33,7 +31,7 @@ public class ProfileController {
     @GetMapping("/testusers")
     @ResponseBody
     public List<User> testUsers(){
-        return userRepository.findAll();
+        return profileService.findAll();
     }
     @GetMapping("/availablefriends")
     @ResponseBody

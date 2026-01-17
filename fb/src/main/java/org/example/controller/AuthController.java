@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") User user) {
         service.signup(user);
-        return "redirect:/login";
+        return "redirect:/fb/login";
     }
 
     @GetMapping("/login")

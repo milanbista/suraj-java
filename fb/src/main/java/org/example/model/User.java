@@ -1,5 +1,6 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"sentRequests", "receivedRequest"})
 public class User {
 
     @Id
@@ -50,18 +52,6 @@ public class User {
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendshipRelation> receivedRequest = new ArrayList<>();
-
-
-
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_groups",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "groupid")
-    )
-    private List<FBGroup> groups;
 
 
     // Constructors
@@ -177,13 +167,6 @@ public class User {
         this.receivedRequest = receivedRequest;
     }
 
-    public List<FBGroup> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<FBGroup> groups) {
-        this.groups = groups;
-    }
 
     // toString method for debugging
     @Override

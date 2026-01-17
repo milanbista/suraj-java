@@ -61,4 +61,8 @@ public class ProfileService {
 
         return null;
     }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }

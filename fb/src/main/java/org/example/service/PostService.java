@@ -12,29 +12,11 @@ import java.util.List;
 @Service
 public class PostService {
 
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public PostRepository getRepo() {
-        return repo;
-    }
-
-    public void setRepo(PostRepository repo) {
-        this.repo = repo;
-    }
-
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private  PostRepository repo;
-
-
 
     public void save(Post post) {
         repo.save(post);
