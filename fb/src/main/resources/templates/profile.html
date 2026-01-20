@@ -7,5 +7,15 @@
 <p>Name: <span th:text="${user.firstName}"></span></p>
 <p>Username: <span th:text="${user.username}"></span></p>
 
+<h2>Edit Profile</h2>
+
+<form th:action="@{/profile/update}" method="post" th:object="${user}">
+    <label>First Name: </label>
+    <input type="text" th:field="*{firstName}">
+    <br>
+    <label>Last Nmae: </label>
+    <input type="text" th:field="*{lastName">
+</form>
+
 </body>
 </html>

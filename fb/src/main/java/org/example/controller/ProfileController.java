@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -43,5 +45,16 @@ public class ProfileController {
 
        return profileService.getAvailableUsers(user);
 
+    }
+
+    @PostMapping("/update")
+    public String updateProfile(
+            @ModelAttribute("user") User formUser, HttpSession session){
+        User loogedInUser = (User) session.getAttribute("user");
+        User updatedUser = profileService.updateProfile(loogedInUser,formUser);
+        if(updatedUser!=null){
+            session.setAttribute("user",updatedUser);
+        }
+        return "redirect/profile";
     }
 }

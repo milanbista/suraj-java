@@ -61,4 +61,19 @@ public class ProfileService {
 
         return null;
     }
+
+    public User updateProfile(User loggedInUser, User updateData){
+        if(loggedInUser==null || loggedInUser.getId()==null){
+            return null;
+        }
+        User dbUser = userRepository.findByUsername(loggedInUser.getUsername());
+        if(dbUser==null){
+            return null;
+        }
+        dbUser.setFirstName(updateData.getFirstName());
+        dbUser.setLastName(updateData.getLastName());
+
+        return userRepository.save(dbUser);
+
+    }
 }
