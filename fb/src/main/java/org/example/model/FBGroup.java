@@ -16,9 +16,6 @@ public class FBGroup {
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "groups")
-    private List<User> users = new ArrayList<>();
-
     public FBGroup() {
 
     }

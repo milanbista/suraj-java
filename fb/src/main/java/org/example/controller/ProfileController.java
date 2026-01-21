@@ -16,12 +16,11 @@ import java.util.List;
 
 
 @Controller
+
 public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
@@ -32,11 +31,11 @@ public class ProfileController {
 
     //get all users who are not friends
 
-    @GetMapping("/testusers")
-    @ResponseBody
-    public List<User> testUsers(){
-        return userRepository.findAll();
-    }
+//    @GetMapping("/testusers")
+//    @ResponseBody
+//    public List<User> testUsers(){
+//        return profileService.findAll();
+//    }
     @GetMapping("/availablefriends")
     @ResponseBody
     public List<User> getAvailableFriends(HttpSession session){
@@ -47,7 +46,14 @@ public class ProfileController {
 
     }
 
-    @PostMapping("/update")
+    @GetMapping("/profile/update")
+    public String showUpdateProfile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "update-profile";
+    }
+
+    @PostMapping("/profile/update")
     public String updateProfile(
             @ModelAttribute("user") User formUser, HttpSession session){
         User loogedInUser = (User) session.getAttribute("user");
@@ -55,6 +61,6 @@ public class ProfileController {
         if(updatedUser!=null){
             session.setAttribute("user",updatedUser);
         }
-        return "redirect/profile";
+        return "redirect:/profile";
     }
 }
