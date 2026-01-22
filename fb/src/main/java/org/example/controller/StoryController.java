@@ -26,6 +26,6 @@ public class StoryController {
 
         storyService.save(story);
 
-        return "redirect:/dashboard";
+        return "redirect:/dash/dashboard";
     }
 }
