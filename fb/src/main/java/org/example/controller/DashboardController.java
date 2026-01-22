@@ -48,7 +48,6 @@ public class DashboardController {
         model.addAttribute("activeUsers", activeUsers.getOnlineUsers());
         model.addAttribute("stories", storyService.getAllStories());
 
-//        model.addAttribute("posts", postService.getAll());
         return "dashboard";
     }
 
@@ -70,7 +69,5 @@ public class DashboardController {
 
         return "redirect:/dash/dashboard";
     }
-
-// Hell
 
 }
