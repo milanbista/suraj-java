@@ -27,6 +27,12 @@ public class FriendshipRelation {
 
     private LocalDateTime createAt = LocalDateTime.now();
 
+    public FriendshipRelation(User from, User to, FriendShipStatus friendShipStatus) {
+        this.requester = from;
+        this.receiver = to;
+        this.status = friendShipStatus;
+    }
+
     public Long getId() {
         return id;
     }

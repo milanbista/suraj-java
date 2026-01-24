@@ -155,27 +155,146 @@
         button {
             cursor: pointer;
         }
-        #available-friends-list button {
-            background: none;
-            border: none;
-            font-weight: 600;
-            color: #65676b;
-            cursor: pointer;
-            padding: 6px 12px;
-            border-radius: 6px;
+
+        /* Create Post Button Styles */
+        .create-post-card {
+            padding: 16px;
         }
 
-        #available-friends-list button:hover {
-            background: #f0f2f5;
+        .create-post-link {
+            text-decoration: none;
+            display: block;
         }
-        #available-friends-list {
+
+        .create-post-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .create-post-btn:hover {
+            background: linear-gradient(135deg, #166fe5, #3b96e8);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .create-post-btn:active {
+            transform: translateY(0);
+        }
+
+        .create-post-icon {
+            font-size: 16px;
+        }
+
+        /* Friends Card Styles */
+        .friends-card {
+            padding: 16px;
+        }
+
+        .friends-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .friends-title {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 600;
+            color: #050505;
+        }
+
+        .see-all-link {
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .see-all-link:hover {
+            text-decoration: underline;
+        }
+
+        .friends-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        #available-friends-list li {
-            padding: 6px 0;
+
+        .friends-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e4e6ea;
+        }
+
+        .friends-list li:last-child {
+            border-bottom: none;
+        }
+
+        .friend-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .friend-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
             font-size: 14px;
+        }
+
+        .friend-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #050505;
+        }
+
+        .add-friend-btn {
+            background: #e4e6ea;
+            color: #050505;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .add-friend-btn:hover {
+            background: #d8dadf;
+        }
+
+        .add-friend-btn.sent {
+            background: #e7f3ff;
+            color: #1877f2;
+        }
+
+        .add-friend-btn.sent:hover {
+            background: #d2e9ff;
         }   
         
     </style>
@@ -205,6 +324,15 @@
             <ul class="sidebar-list">
                 <li th:each="activeUser : ${activeUsers}"
                     th:text="${activeUser}"></li>
+            </ul>
+        </div>
+
+        //create another div for friendship request notification
+        //with options to accept or reject just like facebook style and css
+        <div class="card">
+            <div class="sidebar-title">Friend Requests</div>
+            <ul id="friend-requests" class="sidebar-list">
+                
             </ul>
         </div>
     </div>
@@ -255,14 +383,20 @@
 
     <!-- RIGHT SIDEBAR -->
     <div class="right-sidebar">
-        <div class="card">
-            <a th:href="@{/dash/post}" target="_blank">
-                <button>Create Post</button>
+        <div class="card create-post-card">
+            <a th:href="@{/dash/post}" target="_blank" class="create-post-link">
+                <button class="create-post-btn">
+                    <span class="create-post-icon">✏️</span>
+                    Create Post
+                </button>
             </a>
         </div>
-        <div class="card">
-            <h1>Availablee Friends</h1>
-            <ul id="available-friends-list"></ul>
+        <div class="card friends-card">
+            <div class="friends-header">
+                <h3 class="friends-title">People You May Know</h3>
+                <a href="#" class="see-all-link">See All</a>
+            </div>
+            <ul id="available-friends-list" class="friends-list"></ul>
         </div>
     </div>
 
@@ -297,8 +431,28 @@
             availableFriendsList.innerHTML = '';
             data.forEach(friend => {
                 const listItem = document.createElement('li');
-                listItem.textContent = friend.username;
+                
+                // Create friend info container
+                const friendInfo = document.createElement('div');
+                friendInfo.className = 'friend-info';
+                
+                // Create avatar
+                const avatar = document.createElement('div');
+                avatar.className = 'friend-avatar';
+                avatar.textContent = friend.firstName ? friend.firstName.charAt(0).toUpperCase() : friend.username.charAt(0).toUpperCase();
+                
+                // Create name
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'friend-name';
+                nameSpan.textContent = friend.firstName && friend.lastName ? 
+                    `${friend.firstName} ${friend.lastName}` : friend.username;
+                
+                friendInfo.appendChild(avatar);
+                friendInfo.appendChild(nameSpan);
+                
+                // Create add friend button
                 const addButton = document.createElement('button');
+                addButton.className = 'add-friend-btn';
                 addButton.textContent = 'Add Friend';
                 addButton.addEventListener('click', () => {
                     fetch('/addfriend', {
@@ -310,15 +464,19 @@
                     })
                     .then(response => {
                         if (response.ok) {
-                            alert(`Friend request sent to ${friend.username}`);
+                            addButton.textContent = 'Request Sent';
+                            addButton.classList.add('sent');
+                            addButton.disabled = true;
                         } else {
                             alert('Error sending friend request');
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        console.error('Error occurred while sending friend request:', friend.username);
                     });
                 });
+                
+                listItem.appendChild(friendInfo);
                 listItem.appendChild(addButton);
                 availableFriendsList.appendChild(listItem);
             });
@@ -329,5 +487,91 @@
 
 
 </script>
+
+   
+</script>
+
+
+
+
+
+<script>
+    // show friend request notification if there are any friend requests
+    //show in facebook style in this container
+    //  <ul id="friend-requests" class="sidebar-list">
+                
+    //         </ul>
+    fetch('/feed/friendrequests')
+    .then(response => response.json())
+    .then(data => {
+        console.log('Friend Requests:', data);
+        const friendRequestsList = document.getElementById('friend-requests');
+        friendRequestsList.innerHTML = '';
+        data.forEach(request => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${request.fromUser} sent you a friend request. `;
+
+            // Accept button
+            const acceptButton = document.createElement('button');
+            acceptButton.textContent = 'Accept';
+            acceptButton.style.marginRight = '8px';
+            acceptButton.addEventListener('click', () => {
+                fetch('/acceptfriend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: request.fromUser })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        listItem.remove();
+                    } else {
+                        alert('Error accepting friend request');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error occurred while accepting friend request:', request.fromUser);
+                });
+            });
+
+            // Reject button
+            const rejectButton = document.createElement('button');
+            rejectButton.textContent = 'Reject';
+            rejectButton.addEventListener('click', () => {
+                fetch('/rejectfriend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: request.fromUser })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        listItem.remove();
+                    } else {
+                        alert('Error rejecting friend request');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error occurred while rejecting friend request:', request.fromUser);
+                });
+            });
+
+            listItem.appendChild(acceptButton);
+            listItem.appendChild(rejectButton);
+            friendRequestsList.appendChild(listItem);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching friend requests:', error);
+    });     
+
+
+
+
+
+</script>
+
 </body>
 </html>

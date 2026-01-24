@@ -1,16 +1,14 @@
 package org.example.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.example.model.FriendDTO;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.example.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -62,5 +60,18 @@ public class ProfileController {
             session.setAttribute("user",updatedUser);
         }
         return "redirect:/profile";
+    }
+
+    @PostMapping("/addfriend")
+    @ResponseBody
+    public String addFriend(@RequestBody FriendDTO friendDTO, HttpSession session){
+
+        //who is sending request  User
+        User user = (User) session.getAttribute("user");
+
+        //whom you are sending the request to User
+        return profileService.addFriend(user, friendDTO.getUsername());
+
+
     }
 }

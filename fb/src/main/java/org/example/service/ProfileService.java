@@ -7,6 +7,7 @@ import org.example.repository.FriendshipRepository;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -74,6 +75,32 @@ public class ProfileService {
         dbUser.setLastName(updateData.getLastName());
 
         return userRepository.save(dbUser);
+
+    }
+
+    @Transactional
+    public String addFriend(User user, String username) {
+
+        User to = userRepository.findByUsername(username);
+        // Retrieve the user from database to ensure it's managed by Hibernate session
+        User from = userRepository.findByUsername(user.getUsername());
+
+        if (from == null || to == null) {
+            return "error: user not found";
+        }
+
+        // Check if friendship already exists
+        List<FriendshipRelation> existing = friendshipRepository.findByRequesterAndReceiver(from, to);
+        if (!existing.isEmpty()) {
+            return "error: friendship already exists";
+        }
+
+        FriendshipRelation fr = new FriendshipRelation(from, to, FriendShipStatus.PENDING);
+        
+        // Save the friendship relation directly
+        friendshipRepository.save(fr);
+
+        return "success";
 
     }
 }
