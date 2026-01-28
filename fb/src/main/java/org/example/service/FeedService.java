@@ -34,7 +34,9 @@ public class FeedService {
            String lastName = rel.getRequester().getLastName();
            String status = String.valueOf(rel.getStatus());
 
-           temp.add(new FriendShipRequestDTO(id, username, firstName, lastName, status));
+           if(!status.equals("ACCEPTED")){
+               temp.add(new FriendShipRequestDTO(id, username, firstName, lastName, status));
+           }
 
        }
 

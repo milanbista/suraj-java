@@ -527,7 +527,7 @@
                     fetch('/acceptfriend', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username: request.fromUser })
+                        body: JSON.stringify({ friendshipId: request.id })
                     }).then(response => {
                         if (response.ok) li.remove();
                         else alert('Error accepting request');
@@ -539,7 +539,7 @@
                     fetch('/rejectfriend', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username: request.fromUser })
+                        body: JSON.stringify({ friendshipId: request.id })
                     }).then(response => {
                         if (response.ok) li.remove();
                         else alert('Error rejecting request');

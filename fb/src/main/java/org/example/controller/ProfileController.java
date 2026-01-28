@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.example.model.AcceptDeclineDTO;
 import org.example.model.FriendDTO;
 import org.example.model.User;
 import org.example.repository.UserRepository;
@@ -75,11 +76,11 @@ public class ProfileController {
 
     @PostMapping("/acceptfriend")
     @ResponseBody
-    public String acceptFriend(@RequestParam Long requestId,
+    public String acceptFriend(@RequestBody AcceptDeclineDTO acceptDeclineDTO,
                                HttpSession session) {
 
         User user = (User) session.getAttribute("user");
-        return profileService.acceptFriend(user, requestId);
+        return profileService.acceptFriend(user, acceptDeclineDTO.getFriendshipId());
     }
 
     @PostMapping("/rejectfriend")
