@@ -496,82 +496,62 @@
 
 
 <script>
-    // show friend request notification if there are any friend requests
-    //show in facebook style in this container
-    //  <ul id="friend-requests" class="sidebar-list">
-                
-    //         </ul>
     fetch('/feed/friendrequests')
-    .then(response => response.json())
-    .then(data => {
-        console.log('Friend Requests:', data);
-        const friendRequestsList = document.getElementById('friend-requests');
-        friendRequestsList.innerHTML = '';
-        data.forEach(request => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${request.fromUser} sent you a friend request. `;
+        .then(response => response.json())
+        .then(data => {
+            console.log('Friend Requests:', data);
+            const friendRequestsList = document.getElementById('friend-requests');
+            friendRequestsList.innerHTML = '';
 
-            // Accept button
-            const acceptButton = document.createElement('button');
-            acceptButton.textContent = 'Accept';
-            acceptButton.style.marginRight = '8px';
-            acceptButton.addEventListener('click', () => {
-                fetch('/acceptfriend', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username: request.fromUser })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        listItem.remove();
-                    } else {
-                        alert('Error accepting friend request');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error occurred while accepting friend request:', request.fromUser);
+            if (data.length === 0) {
+                friendRequestsList.innerHTML = '<li>No friend requests</li>';
+                return;
+            }
+
+            data.forEach(request => {
+                const li = document.createElement('li');
+                li.style.marginBottom = '10px';
+
+                li.innerHTML = `
+                    <div style="font-weight:600">
+                        ${request.firstName} ${request.lastName}
+                    </div>
+                    <div style="margin-top:6px">
+                        <button class="add-friend-btn" id="acc-${request.id}">Accept</button>
+                        <button class="add-friend-btn" id="rej-${request.id}">Reject</button>
+                    </div>
+                `;
+
+                // Accept
+                li.querySelector(`#acc-${request.id}`).addEventListener('click', () => {
+                    fetch('/acceptfriend', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username: request.fromUser })
+                    }).then(response => {
+                        if (response.ok) li.remove();
+                        else alert('Error accepting request');
+                    });
                 });
-            });
 
-            // Reject button
-            const rejectButton = document.createElement('button');
-            rejectButton.textContent = 'Reject';
-            rejectButton.addEventListener('click', () => {
-                fetch('/rejectfriend', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username: request.fromUser })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        listItem.remove();
-                    } else {
-                        alert('Error rejecting friend request');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error occurred while rejecting friend request:', request.fromUser);
+                // Reject
+                li.querySelector(`#rej-${request.id}`).addEventListener('click', () => {
+                    fetch('/rejectfriend', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username: request.fromUser })
+                    }).then(response => {
+                        if (response.ok) li.remove();
+                        else alert('Error rejecting request');
+                    });
                 });
+
+                friendRequestsList.appendChild(li);
             });
-
-            listItem.appendChild(acceptButton);
-            listItem.appendChild(rejectButton);
-            friendRequestsList.appendChild(listItem);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching friend requests:', error);
-    });     
-
-
-
-
-
+        })
+        .catch(err => console.error('Friend request error:', err));
 </script>
+
 
 </body>
 </html>

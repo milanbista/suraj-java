@@ -103,4 +103,36 @@ public class ProfileService {
         return "success";
 
     }
+
+    @Transactional
+    public String acceptFriend(User user, Long requestId) {
+
+        User receiver = userRepository.findByUsername(user.getUsername());
+        FriendshipRelation relation =
+                friendshipRepository.findById(requestId).orElse(null);
+
+        if (relation == null || !relation.getReceiver().getId().equals(receiver.getId())) {
+            return "error";
+        }
+
+        relation.setStatus(FriendShipStatus.ACCEPTED);
+        friendshipRepository.save(relation);
+        return "accepted";
+    }
+
+    @Transactional
+    public String rejectFriend(User user, Long requestId) {
+
+        User receiver = userRepository.findByUsername(user.getUsername());
+        FriendshipRelation relation =
+                friendshipRepository.findById(requestId).orElse(null);
+
+        if (relation == null || !relation.getReceiver().getId().equals(receiver.getId())) {
+            return "error";
+        }
+
+        friendshipRepository.delete(relation);
+        return "rejected";
+    }
+
 }

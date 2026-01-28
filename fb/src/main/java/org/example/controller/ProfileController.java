@@ -66,12 +66,29 @@ public class ProfileController {
     @ResponseBody
     public String addFriend(@RequestBody FriendDTO friendDTO, HttpSession session){
 
-        //who is sending request  User
         User user = (User) session.getAttribute("user");
 
-        //whom you are sending the request to User
         return profileService.addFriend(user, friendDTO.getUsername());
 
 
     }
+
+    @PostMapping("/acceptfriend")
+    @ResponseBody
+    public String acceptFriend(@RequestParam Long requestId,
+                               HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+        return profileService.acceptFriend(user, requestId);
+    }
+
+    @PostMapping("/rejectfriend")
+    @ResponseBody
+    public String rejectFriend(@RequestParam Long requestId,
+                               HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+        return profileService.rejectFriend(user, requestId);
+    }
+
 }
