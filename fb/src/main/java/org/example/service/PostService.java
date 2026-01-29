@@ -26,5 +26,9 @@ public class PostService {
         return repo.findAllByOrderByCreatedAtDesc();
     }
 
+    public List<Post> getPostsByUsername(List<String> usernames){
+        return repo.findByUsernameInOrderByCreatedAtDesc(usernames);
+    }
+
 
 }

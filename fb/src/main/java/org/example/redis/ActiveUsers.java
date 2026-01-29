@@ -4,24 +4,21 @@ import org.example.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Component
 public class ActiveUsers {
 
-    private Set<String> onlineUsers = new HashSet<>();
+    private final Set<String> onlineUsers = ConcurrentHashMap.newKeySet();
 
-    public Set<String> getOnlineUsers() {
+    public List<String> getOnlineUsers() {
 
-        for (String s: onlineUsers){
-            System.out.println(s);
-        }
-        return onlineUsers;
+        return onlineUsers.stream().collect(Collectors.toList());
     }
 
-    public void setOnlineUsers(Set<String> onlineUsers) {
-        this.onlineUsers = onlineUsers;
-    }
 
     public void addOnlineUser(String username){
         this.onlineUsers.add(username);

@@ -322,8 +322,8 @@
         <div class="card">
             <div class="sidebar-title">Active Users</div>
             <ul class="sidebar-list">
-                <li th:each="activeUser : ${activeUsers}"
-                    th:text="${activeUser}"></li>
+                <li th:each="friend : ${activeUsers}"
+                    th:text="${friend.firstName} + ' ' + ${friend.lastName}"></li>
             </ul>
         </div>
 

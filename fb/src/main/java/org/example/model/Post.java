@@ -27,18 +27,18 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Post(){
-        this.imageUrl  ="https://cdn-images-3.listennotes.com/podcasts/animal-facts-3/random-animal-facts-zQPv5h2A36J-q2Zp85RmWoD.1400x1400.jpg";
+    public Post() {
+        this.imageUrl = "https://picsum.photos/600/400?random=" + System.currentTimeMillis();
     }
 
-    public Post(Long id, String content, String username, String imageUrl, LocalDateTime createdAt, User user) {
-        this.id = id;
-        this.content = content;
-        this.username = username;
-        this.imageUrl = imageUrl;
-        this.createdAt = createdAt;
-        this.user = user;
-    }
+//    public Post(Long id, String content, String username, String imageUrl, LocalDateTime createdAt, User user) {
+//        this.id = id;
+//        this.content = content;
+//        this.username = username;
+//        this.imageUrl = imageUrl;
+//        this.createdAt = createdAt;
+//        this.user = user;
+//    }
 
     public Long getId() {
         return id;
