@@ -21,4 +21,17 @@ public class BankController {
         return bankService.sendMoney(amount, sender, receiver);
     }
 
+    @GetMapping("/checkout/{accountID}/{random}")
+    @ResponseBody
+    public String checkout(@PathVariable("accountID") Long accountId,
+                           @PathVariable("random") Long random){
+        return "<h1 style=\"color:red;\">"  + accountId + " trying to checkout  random: " + random + "</h1>";
+
+
+
+    }
+
+
+
+
 }

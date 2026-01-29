@@ -28,6 +28,18 @@ public class FeedController {
 
     }
 
+    @PostMapping("/like/{postId}")
+    @ResponseBody
+    public String postLike(@PathVariable("postId") Long postId, HttpSession session){
+
+        User user = (User) session.getAttribute("user");
+
+        feedService.postLike(postId, user);
+        return "";
+    }
+
+
+
 
 
 }
