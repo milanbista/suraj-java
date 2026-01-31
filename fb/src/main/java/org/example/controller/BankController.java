@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.config.DevNotification;
 import org.example.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,9 @@ public class BankController {
 
     @Autowired
     private BankService bankService;
+
+    @Autowired
+    private DevNotification devNotification;
 
     @GetMapping("/sendmoney")
     @ResponseBody
