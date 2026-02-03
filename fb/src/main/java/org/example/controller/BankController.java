@@ -13,8 +13,6 @@ public class BankController {
     @Autowired
     private BankService bankService;
 
-    @Autowired
-    private DevNotification devNotification;
 
     @GetMapping("/sendmoney")
     @ResponseBody
@@ -29,6 +27,7 @@ public class BankController {
     @ResponseBody
     public String checkout(@PathVariable("accountID") Long accountId,
                            @PathVariable("random") Long random){
+
         return "<h1 style=\"color:red;\">"  + accountId + " trying to checkout  random: " + random + "</h1>";
 
 
@@ -37,5 +36,9 @@ public class BankController {
 
 
 
+    @GetMapping("/hello")
+    public String getHello(){
+        return "hello";
+    }
 
 }

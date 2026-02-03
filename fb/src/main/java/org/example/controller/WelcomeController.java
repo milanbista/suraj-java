@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WelcomeController {
 @GetMapping("/hi")
     public String welcome(){
+    String a = "ram";
     return "welcome";
 }
 
